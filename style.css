@@ -1,0 +1,353 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #08070a;
+  --cream: #f3f0ea;
+  --ink: #111015;
+  --muted: #85808a;
+  --line: rgba(17, 16, 21, .10);
+  --purple: #a855f7;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  background: var(--bg);
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+}
+
+.page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(168,85,247,.055), transparent 30%),
+    #08070a;
+}
+
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 86px 86px;
+}
+
+.brand {
+  position: absolute;
+  top: 30px;
+  right: 38px;
+  z-index: 30;
+  font: 500 9px/1 "Space Grotesk", sans-serif;
+  letter-spacing: .22em;
+  color: #aaa4af;
+}
+
+.glow {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: .10;
+  pointer-events: none;
+  transition: opacity 1s ease, transform 1.2s var(--ease);
+}
+
+.glow-a {
+  top: 18%;
+  left: 28%;
+  background: #7c3aed;
+}
+
+.glow-b {
+  right: 25%;
+  bottom: 8%;
+  background: #c026d3;
+}
+
+.page.open .glow {
+  opacity: .16;
+}
+
+.menu-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 1px;
+  z-index: 10;
+}
+
+.menu-button {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 104px;
+  height: 104px;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 50%;
+  background: #121116;
+  color: #fff;
+  transform: translate(-50%, -50%) translate3d(0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.38),
+    inset 0 1px rgba(255,255,255,.07);
+  transition:
+    width .75s var(--ease),
+    height .75s var(--ease),
+    border-radius .75s var(--ease),
+    background .45s ease,
+    color .45s ease,
+    box-shadow .45s ease;
+  will-change: transform;
+}
+
+.menu-button::before {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border: 1px solid rgba(168,85,247,.12);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(.72);
+  transition: opacity .4s ease, transform .75s var(--ease);
+}
+
+.menu-button.magnetic::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.menu-button:hover {
+  box-shadow:
+    0 30px 70px rgba(0,0,0,.45),
+    0 0 35px rgba(168,85,247,.10),
+    inset 0 1px rgba(255,255,255,.10);
+}
+
+.button-label {
+  font: 500 9px/1 "Space Grotesk", sans-serif;
+  letter-spacing: .18em;
+}
+
+.hamburger {
+  width: 20px;
+  height: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: opacity .3s ease, transform .6s var(--ease);
+}
+
+.hamburger i {
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  display: block;
+}
+
+.close-icon {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  opacity: 0;
+  transform: rotate(-35deg) scale(.55);
+  transition: opacity .3s ease, transform .6s var(--ease);
+}
+
+.close-icon i {
+  position: absolute;
+  width: 24px;
+  height: 1px;
+  left: -1px;
+  top: 10px;
+  background: #111015;
+}
+
+.close-icon i:first-child { transform: rotate(45deg); }
+.close-icon i:last-child { transform: rotate(-45deg); }
+
+.menu-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(520px, 72vw);
+  min-height: 360px;
+  padding: 28px 32px;
+  border-radius: 28px;
+  background: var(--cream);
+  color: var(--ink);
+  transform: translate(-50%, -50%) scale(.35);
+  transform-origin: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 40px 110px rgba(0,0,0,.45);
+  transition:
+    opacity .35s ease,
+    transform .9s var(--ease),
+    visibility 0s linear .9s;
+}
+
+.page.open .menu-card {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+  transition:
+    opacity .4s ease .05s,
+    transform .95s var(--ease),
+    visibility 0s;
+}
+
+.page.open .menu-button {
+  width: 66px;
+  height: 66px;
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0 18px 45px rgba(0,0,0,.25);
+}
+
+.page.open .button-label,
+.page.open .hamburger {
+  opacity: 0;
+  transform: scale(.6);
+}
+
+.page.open .close-icon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  color: #8d8790;
+  font: 500 8px/1 "Space Grotesk", sans-serif;
+  letter-spacing: .18em;
+}
+
+.links {
+  padding-top: 10px;
+}
+
+.menu-link {
+  position: relative;
+  height: 65px;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  transition: padding-left .45s var(--ease);
+}
+
+.menu-link::before {
+  content: "";
+  position: absolute;
+  inset: 4px 0;
+  width: 0;
+  border-radius: 10px;
+  background: rgba(17,16,21,.055);
+  transition: width .5s var(--ease);
+}
+
+.menu-link:hover {
+  padding-left: 12px;
+}
+
+.menu-link:hover::before {
+  width: 100%;
+}
+
+.number, .title {
+  position: relative;
+  z-index: 1;
+}
+
+.number {
+  color: #aaa4ac;
+  font: 500 8px/1 "Space Grotesk", sans-serif;
+}
+
+.title {
+  font: 500 clamp(24px, 3vw, 31px)/1 "Space Grotesk", sans-serif;
+  letter-spacing: -.045em;
+  transition: transform .45s var(--ease);
+}
+
+.menu-link:hover .title {
+  transform: translateX(4px);
+}
+
+@media (max-width: 600px) {
+  .brand {
+    top: 22px;
+    right: 22px;
+    font-size: 8px;
+  }
+
+  .menu-button {
+    width: 92px;
+    height: 92px;
+  }
+
+  .menu-card {
+    width: calc(100vw - 36px);
+    min-height: 330px;
+    padding: 24px 22px;
+    border-radius: 24px;
+  }
+
+  .menu-link {
+    height: 60px;
+    grid-template-columns: 36px 1fr;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+  }
+
+  .menu-button,
+  .menu-card,
+  .menu-link,
+  .glow {
+    transition-duration: .01ms !important;
+  }
+}
